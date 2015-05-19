@@ -28,22 +28,22 @@
                 this.errorMessageView = options.errorMessageView;
                 this.courseId = $(this.el).data('courseId');
                 this.langCode = $(this.el).data('langCode');
-                _.bindAll(this, 'render', 'breadcrumbTrail', 'userFriendlyDate', 'bookmarkUrl');
+                _.bindAll(this, 'render', 'breadcrumbTrail', 'humanFriendlyDate', 'createBookmarkUrl');
             },
 
             render: function () {
                 var data = {
                     bookmarks: this.collection.models,
                     breadcrumbTrail: this.breadcrumbTrail,
-                    userFriendlyDate: this.userFriendlyDate,
-                    bookmarkUrl: this.bookmarkUrl
+                    humanFriendlyDate: this.humanFriendlyDate,
+                    createBookmarkUrl: this.createBookmarkUrl
                 };
                 this.$el.html(this.template(data));
                 this.delegateEvents();
                 return this;
             },
 
-            loadBookmarks: function () {
+            showBookmarksList: function () {
                 var view = this;
 
                 this.hideErrorMessage();
@@ -68,6 +68,11 @@
                 window.location = event.target.pathname;
             },
 
+            /**
+             * Create a breadcrumb trail from section, subsection and unit display names.
+             * @param {Array} bookmarkPath - Contains 2 objects of info related to section and subsection.
+             * @param {String} unitDisplayName - Unit display name.
+             */
             breadcrumbTrail: function (bookmarkPath, unitDisplayName) {
                 var separator = ' <i class="icon fa fa-caret-right" aria-hidden="true"></i><span class="sr">-</span> ';
                 var names = _.pluck(bookmarkPath, 'display_name');
@@ -75,12 +80,16 @@
                 return names.join(separator);
             },
 
-            userFriendlyDate: function (isoDate) {
+            /**
+             * Convert ISO 8601 formatted date into human friendly format. e.g, `2014-05-23T14:00:00Z` to `May 23, 2014`
+             * @param {String} isoDate - ISO 8601 formatted date string.
+             */
+            humanFriendlyDate: function (isoDate) {
                 moment.locale(this.langCode);
                 return moment(isoDate).format('LL');
             },
 
-            bookmarkUrl: function (courseId, usageId) {
+            createBookmarkUrl: function (courseId, usageId) {
                 return '/courses/' + courseId + '/jump_to/' + usageId
             },
 
@@ -95,7 +104,7 @@
 
             showBookmarksContainer: function () {
                 $(this.coursewareContentElement).hide();
-                // Empty el if there anything in it so that we are in clean state.
+                // Empty el if it's not empty to get the clean state.
                 this.$el.html('');
                 this.$el.show();
             },

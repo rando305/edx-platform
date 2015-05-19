@@ -16,7 +16,6 @@ define(['backbone', 'jquery', 'underscore', 'js/common_helpers/ajax_helpers', 'j
                 TemplateHelpers.installTemplates(
                     [
                         'templates/message_view',
-                        'templates/bookmarks/bookmarks_button',
                         'templates/bookmarks/bookmarks_list'
                     ]
                 );
@@ -64,28 +63,28 @@ define(['backbone', 'jquery', 'underscore', 'js/common_helpers/ajax_helpers', 'j
                     courseId = expectedData.results[0].course_id;
                     usageId = expectedData.results[0].usage_id;
 
-                    expect(view.$('.bookmarks-results-list-item')).toHaveAttr('href', view.bookmarkUrl(courseId, usageId));
+                    expect(view.$('.bookmarks-results-list-item')).toHaveAttr('href', view.createBookmarkUrl(courseId, usageId));
                     expect(view.$('.list-item-breadcrumbtrail').html().trim()).toBe(view.breadcrumbTrail(expectedData.results[0].path, expectedData.results[0].display_name));
-                    expect(view.$('.list-item-date').text().trim()).toBe('Bookmarked on ' + view.userFriendlyDate(expectedData.results[0].created));
+                    expect(view.$('.list-item-date').text().trim()).toBe('Bookmarked on ' + view.humanFriendlyDate(expectedData.results[0].created));
                 };
 
                 it("has correct behavior for bookmarks button", function () {
                     spyOn(bookmarksButtonView, 'toggleBookmarksListView').andCallThrough();
-                    spyOn(bookmarksButtonView.bookmarksListView, 'loadBookmarks').andReturn(true);
+                    spyOn(bookmarksButtonView.bookmarksListView, 'showBookmarksList').andReturn(true);
 
                     bookmarksButtonView.delegateEvents();
 
-                    expect(bookmarksButtonView.$('.bookmarks-button')).toHaveAttr('aria-pressed', 'false');
-                    expect(bookmarksButtonView.$('.bookmarks-button')).toHaveClass('is-inactive');
+                    expect(bookmarksButtonView.$('.bookmarks-list-button')).toHaveAttr('aria-pressed', 'false');
+                    expect(bookmarksButtonView.$('.bookmarks-list-button')).toHaveClass('is-inactive');
 
-                    bookmarksButtonView.$('.bookmarks-button').click();
+                    bookmarksButtonView.$('.bookmarks-list-button').click();
                     expect(bookmarksButtonView.toggleBookmarksListView).toHaveBeenCalled();
-                    expect(bookmarksButtonView.$('.bookmarks-button')).toHaveAttr('aria-pressed', 'true');
-                    expect(bookmarksButtonView.$('.bookmarks-button')).toHaveClass('is-active');
+                    expect(bookmarksButtonView.$('.bookmarks-list-button')).toHaveAttr('aria-pressed', 'true');
+                    expect(bookmarksButtonView.$('.bookmarks-list-button')).toHaveClass('is-active');
 
-                    bookmarksButtonView.$('.bookmarks-button').click();
-                    expect(bookmarksButtonView.$('.bookmarks-button')).toHaveAttr('aria-pressed', 'false');
-                    expect(bookmarksButtonView.$('.bookmarks-button')).toHaveClass('is-inactive');
+                    bookmarksButtonView.$('.bookmarks-list-button').click();
+                    expect(bookmarksButtonView.$('.bookmarks-list-button')).toHaveAttr('aria-pressed', 'false');
+                    expect(bookmarksButtonView.$('.bookmarks-list-button')).toHaveClass('is-inactive');
                 });
 
                 it("has rendered bookmarked list correctly", function () {
@@ -95,7 +94,7 @@ define(['backbone', 'jquery', 'underscore', 'js/common_helpers/ajax_helpers', 'j
                     var bookmarksListView = bookmarksButtonView.bookmarksListView;
 
                     spyOn(bookmarksListView, 'courseId').andReturn('COURSE_ID');
-                    bookmarksButtonView.$('.bookmarks-button').click();
+                    bookmarksButtonView.$('.bookmarks-list-button').click();
 
                     expect($('#loading-message').text().trim()).toBe(bookmarksListView.loadingMessage);
 
@@ -113,7 +112,7 @@ define(['backbone', 'jquery', 'underscore', 'js/common_helpers/ajax_helpers', 'j
 
                     spyOn(bookmarksListView, 'visitBookmark');
 
-                    bookmarksButtonView.$('.bookmarks-button').click();
+                    bookmarksButtonView.$('.bookmarks-list-button').click();
 
                     AjaxHelpers.respondWithJson(requests, createBookmarksData());
 
@@ -124,7 +123,7 @@ define(['backbone', 'jquery', 'underscore', 'js/common_helpers/ajax_helpers', 'j
                 it("shows error message for HTTP 500", function () {
                     var requests = AjaxHelpers.requests(this);
 
-                    bookmarksButtonView.$('.bookmarks-button').click();
+                    bookmarksButtonView.$('.bookmarks-list-button').click();
 
                     AjaxHelpers.respondWithError(requests);
 

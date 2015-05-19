@@ -29,7 +29,7 @@ define(['backbone', 'jquery', 'underscore', 'js/views/message'
                 expect($(messageSelector).text().trim()).toBe('');
             });
 
-            it('renders message correctly with template with icon', function() {
+            it('renders message correctly with template and icon', function() {
                 var messageSelector = '.message';
                 var messageView = createMessageView(messageSelector, '#message-tpl');
                 var icon = '<i class="fa fa-thumbs-up"></i>';

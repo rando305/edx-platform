@@ -12,7 +12,7 @@
             errorMessageElement: '#error-message',
 
             events: {
-                'click .bookmarks-button': 'toggleBookmarksListView'
+                'click .bookmarks-list-button': 'toggleBookmarksListView'
             },
 
             initialize: function () {
@@ -29,12 +29,12 @@
             toggleBookmarksListView: function () {
                 if (this.bookmarksListView.isVisible()) {
                     this.bookmarksListView.hideBookmarks();
-                    this.$('.bookmarks-button').attr('aria-pressed', 'false');
-                    this.$('.bookmarks-button').removeClass('is-active').addClass('is-inactive');
+                    this.$('.bookmarks-list-button').attr('aria-pressed', 'false');
+                    this.$('.bookmarks-list-button').removeClass('is-active').addClass('is-inactive');
                 } else {
-                    this.bookmarksListView.loadBookmarks();
-                    this.$('.bookmarks-button').attr('aria-pressed', 'true');
-                    this.$('.bookmarks-button').removeClass('is-inactive').addClass('is-active');
+                    this.bookmarksListView.showBookmarksList();
+                    this.$('.bookmarks-list-button').attr('aria-pressed', 'true');
+                    this.$('.bookmarks-list-button').removeClass('is-inactive').addClass('is-active');
                 }
             }
         });
