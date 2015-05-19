@@ -53,7 +53,7 @@
                 this.collection.url = this.url;
                 this.collection.fetch({
                     reset: true,
-                    data: {course_id: this.courseId, fields: 'path'}
+                    data: {course_id: this.courseId, fields: 'display_name,path'}
                 }).done(function () {
                     view.hideLoadingMessage();
                     view.render();

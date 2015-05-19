@@ -2,11 +2,9 @@ define(['backbone', 'jquery', 'underscore', 'js/common_helpers/ajax_helpers', 'j
         'js/bookmarks/models/bookmark',
         'js/bookmarks/collections/bookmarks',
         'js/bookmarks/views/bookmarks_button',
-        'js/bookmarks/views/bookmarks_list',
         'moment'
        ],
-    function (Backbone, $, _, AjaxHelpers, TemplateHelpers, BookmarksModel, BookmarksCollection, BookmarksButtonView,
-              BookmarksListView) {
+    function (Backbone, $, _, AjaxHelpers, TemplateHelpers, BookmarksModel, BookmarksCollection, BookmarksButtonView) {
         'use strict';
 
         describe("lms.courseware.bookmarks", function () {
@@ -63,9 +61,13 @@ define(['backbone', 'jquery', 'underscore', 'js/common_helpers/ajax_helpers', 'j
                     courseId = expectedData.results[0].course_id;
                     usageId = expectedData.results[0].usage_id;
 
-                    expect(view.$('.bookmarks-results-list-item')).toHaveAttr('href', view.createBookmarkUrl(courseId, usageId));
-                    expect(view.$('.list-item-breadcrumbtrail').html().trim()).toBe(view.breadcrumbTrail(expectedData.results[0].path, expectedData.results[0].display_name));
-                    expect(view.$('.list-item-date').text().trim()).toBe('Bookmarked on ' + view.humanFriendlyDate(expectedData.results[0].created));
+                    expect(
+                        view.$('.bookmarks-results-list-item')
+                    ).toHaveAttr('href', view.createBookmarkUrl(courseId, usageId));
+                    expect(view.$('.list-item-breadcrumbtrail').html().trim()).
+                        toBe(view.breadcrumbTrail(expectedData.results[0].path, expectedData.results[0].display_name));
+                    expect(view.$('.list-item-date').text().trim()).
+                        toBe('Bookmarked on ' + view.humanFriendlyDate(expectedData.results[0].created));
                 };
 
                 it("has correct behavior for bookmarks button", function () {
@@ -89,7 +91,8 @@ define(['backbone', 'jquery', 'underscore', 'js/common_helpers/ajax_helpers', 'j
 
                 it("has rendered bookmarked list correctly", function () {
                     var requests = AjaxHelpers.requests(this);
-                    var url = bookmarksButtonView.bookmarksListView.url + '?course_id=COURSE_ID&fields=path';
+                    var url = bookmarksButtonView.bookmarksListView.url +
+                        '?course_id=COURSE_ID&fields=display_name%2Cpath';
                     var expectedData = createBookmarksData();
                     var bookmarksListView = bookmarksButtonView.bookmarksListView;
 

@@ -3,5 +3,5 @@ RequireJS.require([
 ], function (BookmarksButton) {
     'use strict';
 
-    new BookmarksButton();
+    return new BookmarksButton();
 });
