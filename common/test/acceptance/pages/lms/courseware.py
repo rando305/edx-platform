@@ -94,6 +94,12 @@ class CoursewarePage(CoursePage):
         """
         return self.q(css='.chapter ul li.active a').attrs('href')[0]
 
+    def active_usage_id(self):
+        """ Returns the usage id of active sequence item """
+        return self.q(css='#sequence-list a').filter(
+            lambda el: 'active' in el.get_attribute('class')).map(
+            lambda el: el.get_attribute('data-id')).results[0]
+
 
 class CoursewareSequentialTabPage(CoursePage):
     """
