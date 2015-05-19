@@ -125,17 +125,4 @@
 
 .bookmarks-empty-detail {
   @extend %t-copy-sub1;
-  overflow: hidden;
-}
-
-.bookmarks-empty-detail-title {
-  @include float(left);
-  width: 85%;
-}
-
-.bookmarks-empty-detail-bookmark-button {
-  @include float(right);
-  border: 1px solid $gray-l4;
-  padding: ($baseline/4);
-  border-radius: ($baseline/10);
 }

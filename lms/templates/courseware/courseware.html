@@ -30,7 +30,7 @@ ${page_title_breadcrumbs(course_name())}
 </script>
 % endfor
 
-% for template_name in ["bookmarks_button", "bookmarks_list"]:
+% for template_name in ["bookmarks_list"]:
 <script type="text/template" id="${template_name}-tpl">
     <%static:include path="bookmarks/${template_name}.underscore" />
 </script>
